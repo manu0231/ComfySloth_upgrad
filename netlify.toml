@@ -2,7 +2,6 @@
   publish = "dist"
 
 [[redirects]]
-  from = "/api/"
-  to = "https://storeserver-production-bc7e.up.railway.app"
+  from = "/api/*"
+  to = "/.netlify/functions/proxy/:splat"
   status = 200
-  force = true
