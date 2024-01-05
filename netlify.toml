@@ -2,6 +2,6 @@
   publish = "dist"
 
 [[redirects]]
-  from = "/api/*"
+  from = "/api/v1/*"
   to = "/.netlify/functions/proxy/:splat"
   status = 200
