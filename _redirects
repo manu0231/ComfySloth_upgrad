@@ -1,0 +1,3 @@
+#redirects
+
+/api/* https://storeserver-production-bc7e.up.railway.app/:splat 200
