@@ -5,3 +5,8 @@
   from = "/api/v1/*"
   to = "/.netlify/functions/proxy/:splat"  # Ensure a forward slash before :splat
   status = 200
+
+
+[build.environment]
+  VITE_STRIPE_PUBLIC_KEY = "pk_test_51MNXIVSA8sRIIEU2royAMOd0yeSoWAgHTEPjr0o8xGAeBFADb56uhTI6XO92TDWskCraXe2oe6vTYOZMYjJ6GicN002zi0la1g"
+  VITE_STRIPE_SECRET_KEY = "sk_test_51MNXIVSA8sRIIEU2cAfFqEegfyNQiUqc6IBVcQd164WaONwOczeN1D9SQYyNKs00841nOSTVZaVLGYWPXkL8pE6A00zRhRSGjR"
