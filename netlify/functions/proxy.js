@@ -1,6 +1,6 @@
 // proxy.js
 
-const axios = require('axios')
+import axios from 'axios'
 
 exports.handler = async function (event, context) {
   try {
