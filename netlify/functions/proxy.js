@@ -18,7 +18,11 @@ exports.handler = async function (event, context) {
 
     const response = await fetch(url, options);
 
-    // Parse the response JSON
+    // Check if the response is empty
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
     const responseData = await response.json();
 
     // Return the response from the target API
