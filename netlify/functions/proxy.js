@@ -3,11 +3,20 @@
 exports.handler = async function (event, context) {
   try {
     // Forward the request to the target API using fetch
-    const response = await fetch(`https://storeserver-production-bc7e.up.railway.app${event.path}`, {
-      method: event.httpMethod,
+    const url = `https://comfyslothupgrad.netlify.app/api/v1/products${event.path}`;
+    const method = event.httpMethod;
+
+    // Only include a body for non-GET requests
+    const options = {
+      method,
       headers: event.headers,
-      body: event.body,
-    });
+    };
+
+    if (method !== 'GET') {
+      options.body = event.body;
+    }
+
+    const response = await fetch(url, options);
 
     // Parse the response JSON
     const responseData = await response.json();
