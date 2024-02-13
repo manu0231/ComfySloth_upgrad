@@ -1,30 +1,30 @@
 // proxy.js
 
-import axios from 'axios'
-
 exports.handler = async function (event, context) {
   try {
-    // Forward the request to the target API
-    const response = await axios({
+    // Forward the request to the target API using fetch
+    const response = await fetch(`https://storeserver-production-bc7e.up.railway.app${event.path}`, {
       method: event.httpMethod,
-      url: `https://storeserver-production-bc7e.up.railway.app${event.path}`,
       headers: event.headers,
-      data: event.body,
-    })
+      body: event.body,
+    });
+
+    // Parse the response JSON
+    const responseData = await response.json();
 
     // Return the response from the target API
     return {
       statusCode: response.status,
-      body: JSON.stringify(response.data),
+      body: JSON.stringify(responseData),
       headers: response.headers,
-    }
+    };
   } catch (error) {
     // Handle errors gracefully
     return {
-      statusCode: error.response.status || 500,
+      statusCode: error.response ? error.response.status : 500,
       body: JSON.stringify({
         error: error.message,
       }),
-    }
+    };
   }
-}
+};
