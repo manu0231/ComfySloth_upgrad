@@ -1,54 +1,69 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 
-import { useAuth0 } from '@auth0/auth0-react'
 import axios from 'axios'
-// import { showCurrentUser as url } from '../utils/constants'
-
+import user_reducer from '../reducers/user_reducer'
 const UserContext = React.createContext()
+// UserProvider.js
+
+import {
+  MY_USER,
+  SET_USER,
+  LOGOUT,
+  USER_ERROR,
+  SAVE_USER_LOCALLY,
+} from '../actions'
+
+const initialState = {
+  myUser: {},
+  isUserLoading: true,
+}
 
 export const UserProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [myUser, setMyUser] = useState(null)
-  // const { loginWithRedirect, logout, user } = useAuth0()
+  const [state, dispatch] = useReducer(user_reducer, initialState)
 
   const saveUser = (user) => {
-    setMyUser(user)
+    dispatch({
+      type: SAVE_USER_LOCALLY,
+      payload: user,
+    })
   }
 
-  const removeUser = () => {
-    setMyUser(null)
+  const getUser = async () => {
+    dispatch({ type: MY_USER })
+    try {
+      const { data } = await axios.get('/api/v1/user/showme', {
+        withCredentials: true,
+      })
+      dispatch({ type: SET_USER, payload: data.user })
+    } catch (error) {
+      dispatch({ type: USER_ERROR, payload: error.message })
+    }
   }
 
   const logout = async () => {
-    try {
-      await axios.get('/api/v1/auth/logout')
-      removeUser()
-    } catch (error) {
-      console.log(error)
-    }
+    dispatch({ type: LOGOUT })
   }
-  const fetchUser = async () => {
-    try {
-      const { data } = await axios.get('/api/v1/user/showme')
-      saveUser(data.user)
-    } catch (error) {
-      // console.log(error)
-      removeUser()
-    }
-    setIsLoading(false)
-  }
+
   useEffect(() => {
-    fetchUser()
+    const fetchData = async () => {
+      try {
+        await getUser()
+      } finally {
+        // Log state after the API call is complete
+        // console.log(state.myUser)
+      }
+    }
+
+    fetchData()
   }, [])
 
   return (
-    // <UserContext.Provider value={{ loginWithRedirect, logout, myUser }}>
-    <UserContext.Provider value={{ isLoading, saveUser, myUser, logout }}>
+    <UserContext.Provider value={{ ...state, saveUser, logout }}>
       {children}
     </UserContext.Provider>
   )
 }
-// make sure use
-export const  useUserContext = () => {
+
+export const useUserContext = () => {
   return useContext(UserContext)
 }

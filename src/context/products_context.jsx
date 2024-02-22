@@ -65,9 +65,9 @@ const ProductsProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    fetchProducts(`${url}`)
+    // console.log('Component mounted, fetching products...')
+    fetchProducts()
   }, [])
-
   // fetchSingleProduct(url,"63a5bf40c57687c2dc844763")
   return (
     <ProductsContext.Provider

@@ -79,7 +79,7 @@ export const FilterProvider = ({ children }) => {
     dispatch({ type: SORT_PRODUCTS })
   }, [products, state.sort, state.filters])
 
-  useEffect(() => {})
+  
   return (
     <FilterContext.Provider
       value={{

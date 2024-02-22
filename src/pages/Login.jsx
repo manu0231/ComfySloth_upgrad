@@ -28,22 +28,30 @@ function Login() {
     setLoading(true)
     const { email, password } = values
     const loginUser = { email, password }
-    try {
-      const { data } = await axios.post(`/api/v1/auth/login`, loginUser)
 
-      setValues({ name: '', email: '', password: '' })
+    try {
+      const {data} = await axios.post(`/api/v1/auth/login`, loginUser, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+
+      // console.log(response)
+      // Clearing form values after successful login
+      setValues({ email: '', password: '' })
+
       showAlert({
         text: `Welcome, ${data.user.name}. Redirecting to dashboard...`,
         type: 'success',
       })
-      // setLoading(false)
-      saveUser(data.user)
 
+      saveUser(data.user)
       navigate('/')
     } catch (error) {
-      // console.log(error)
       showAlert({ text: error.response.data.msg })
-      setLoading(false)
+    } finally {
+      setLoading(false) // Moved setLoading(false) to the 'finally' block to ensure it runs in both success and error cases
     }
   }
 

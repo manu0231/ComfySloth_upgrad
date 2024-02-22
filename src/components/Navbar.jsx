@@ -8,9 +8,53 @@ import CartButtons from './CartButtons'
 import { useProductsContext } from '../context/products_context'
 import { useUserContext } from '../context/user_context'
 
+// const Nav = () => {
+//   const { OpenSidebar } = useProductsContext()
+//   const {
+//     state: { myUser },
+//   } = useUserContext()
+//   return (
+//     <NavContainer>
+//       <div className="nav-center">
+//         <div className="nav-header">
+//           <Link to="/">
+//             <img src={logo} alt="" />
+//           </Link>
+//           <button className="nav-toggle" type="button" onClick={OpenSidebar}>
+//             <FaBars />
+//           </button>
+//         </div>
+//         <ul className="nav-links">
+//           {links.map((link) => {
+//             const { id, text, url } = link
+//             return (
+//               <li key={id}>
+//                 <Link to={url}>{text}</Link>
+//               </li>
+//             )
+//           })}
+//           {myUser && myUser.role !== 'admin' && (
+//             <li>
+//               <Link to="/checkout">Checkout</Link>
+//             </li>
+//           )}
+//           {myUser && myUser.role === 'admin' && (
+//             <li>
+//               <Link to="/admin">AddProduct</Link>
+//             </li>
+//           )}
+//         </ul>
+
+//         <CartButtons />
+//       </div>
+//     </NavContainer>
+//   )
+// }
+
 const Nav = () => {
   const { OpenSidebar } = useProductsContext()
   const { myUser } = useUserContext()
+
   return (
     <NavContainer>
       <div className="nav-center">
